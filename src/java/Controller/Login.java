@@ -8,11 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Arrays;
 /**
  *
  * @author Wian van Niekerk
@@ -22,6 +22,7 @@ public class Login extends HttpServlet{
     ConnectionProvider connectionProvider;
     
     private static HttpSession session;
+    public static StringBuilder err = new StringBuilder();
         
     public Login() {
         this.connectionProvider = new ConnectionProvider();
@@ -32,9 +33,7 @@ public class Login extends HttpServlet{
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         
-        try {
-            StringBuilder err = new StringBuilder();
-            
+        try {                        
             if (email.isEmpty() || password.isEmpty())
             {
                 err.append("Email and Password must both be filled in");
@@ -45,14 +44,7 @@ public class Login extends HttpServlet{
             
             if (err.length() > 0)
             {
-                resp.setContentType("text/html");
-                try (PrintWriter out = resp.getWriter()) {
-                    out.println("<html><body>");
-                    out.println("<h2>Login Error</h2>");
-                    out.println("<p>" + err + "</p>");
-                    out.println("<a href='javascript:history.back()'>Go Back</a>");
-                    out.println("</body></html>");
-                }
+                resp.sendRedirect("login.jsp");                
             } else {
                 session = req.getSession();
                 session.setAttribute("loggedIn", true);
@@ -97,5 +89,4 @@ public class Login extends HttpServlet{
     {
         session = null;
     }
-    
 }

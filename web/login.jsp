@@ -5,29 +5,35 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Controller.Login"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
-        <style>
-            input {
-                margin-bottom: 15px;
-            }
-            input {
-                display: block;
-                margin-top: 15px;
-            }
-        </style>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>Login</h1>
-        <form action="Login" method="POST">
-            <label for="email">Email</label>
-            <input type="email" name="email">            
-            <label for="password">Password</label>
-            <input type="password" name="password">            
-            <input type="submit" value="Login" name="login">
-        </form>
+    <body class="min-h-screen flex items-center justify-center bg-gray-200">
+        <%
+            Login login = new Login();            
+        %>
+        <div class="bg-white p-8 rounded-lg shadow-md w-96">
+            <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Login</h1>
+            <%
+                if (login.err.length() > 0)
+                { 
+            %>
+            <p class="my-4 text-center text-red-500"> <%= login.err %> </p>
+            <%  }
+                login.err.setLength(0);
+            %>
+            <form action="Login" method="POST" class="space-y-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500" type="email" name="email">            
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500" type="password" name="password">            
+                <input class="w-full bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500" type="submit" value="Login" name="login">
+            </form>
+        </div>
     </body>
 </html>
