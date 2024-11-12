@@ -1,0 +1,5 @@
+src/java/Resources/config.properties
+*.properties
+build/
+dist/
+nbproject/private/
