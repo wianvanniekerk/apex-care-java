@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Base;
+import Model.User;
 import Services.ConnectionProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -57,15 +60,14 @@ public class Login extends HttpServlet{
             e.printStackTrace();
         }
     }
-    
+
     public boolean getUser(String email, String password)
-    {
-        List<String> user = new LinkedList<>();
-        
-        String login = email + password;
-        
+    {             
+        ArrayList<ArrayList<Base>> user = new ArrayList<>();
+        String login = "[" + email + ", " + password + "]";
+        System.out.println(login);
         try {
-            user = connectionProvider.executeQuery("SELECT * FROM SysUser", "Email", "Password");
+            user = connectionProvider.executeQuery("SELECT * FROM SysUser", new User("", email, "",password), "Email", "Password");
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -73,15 +75,14 @@ public class Login extends HttpServlet{
             connectionProvider.closeConnection();
         }
         
-        StringBuilder cred = new StringBuilder();
-        for (Iterator iterator = user.iterator(); iterator.hasNext();) {
-            cred.append(iterator.next());            
-        }
-        
-        if (cred.toString().equals(login)) {
-            return true;
-        }
-                
+        for (int i = 0; i < user.size(); i++) {
+            ArrayList<Base> userCredentials = user.get(i);
+            System.out.println(userCredentials.toString());
+
+            if (userCredentials.toString().equals(login)) {
+                return true;
+            }
+        }             
         return false;
     }
     
@@ -89,4 +90,9 @@ public class Login extends HttpServlet{
     {
         session = null;
     }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect("login.jsp");
+    }       
 }

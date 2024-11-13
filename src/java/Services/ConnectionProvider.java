@@ -1,5 +1,7 @@
 package Services;
+import Model.Base;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 /**
@@ -44,20 +46,24 @@ public class ConnectionProvider {
         }
     }
     
-    public List<String> executeQuery(String query, String ...colNames)
+    public ArrayList<ArrayList<Base>> executeQuery(String query, Base base, String ...colNames)
     {
-        List<String> ret = new LinkedList<>();
+        ArrayList<ArrayList<Base>> res = new ArrayList<>();
+        
         try {
             connect();
             
             PreparedStatement pstmt = con.prepareStatement(query);
             
             try (ResultSet result = pstmt.executeQuery()) {
-                if (result.next()) {                    
+                while (result.next()) {
+                    ArrayList<Base> rowData = new ArrayList<>();
                     for (String col : colNames) {
-                        ret.add(result.getString(col));
+                        String value = result.getString(col);
+                        rowData.add(new Base(value));
                     }
-                }            
+                    res.add(rowData);  
+                }
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -68,6 +74,6 @@ public class ConnectionProvider {
             e.printStackTrace();
         }
         
-        return ret;
+        return res;
     }
 }
