@@ -4,7 +4,7 @@ package Model;
  *
  * @author Wian van Niekerk
  */
-public class Client {
+public class Client extends Base {
     private String name;
     private String email;
     private String phone;
@@ -12,7 +12,10 @@ public class Client {
     private String address;
     private boolean isKeyClient;
     
-    public Client(){}
+    public Client()
+    {
+        super();
+    }
     
     public Client(String name, String email, String phone, String password, String address, boolean isKeyClient)
     {
