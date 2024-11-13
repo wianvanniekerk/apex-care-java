@@ -65,9 +65,10 @@ public class LoginController extends HttpServlet{
     {             
         ArrayList<ArrayList<Base>> user = new ArrayList<>();
         String login = "[" + email + ", " + password + "]";
-        System.out.println(login);
+        String[] columns = {"Email", "Password"};
+
         try {
-            user = connectionProvider.executeQuery("SELECT * FROM SysUser", "Email", "Password");
+            user = connectionProvider.executeQuery("SELECT * FROM SysUser", columns);
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -98,4 +99,6 @@ public class LoginController extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.sendRedirect("login.jsp");
     }       
+    
+
 }

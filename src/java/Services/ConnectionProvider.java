@@ -46,34 +46,42 @@ public class ConnectionProvider {
         }
     }
     
-    public ArrayList<ArrayList<Base>> executeQuery(String query, String ...colNames)
+    public ArrayList<ArrayList<Base>> executeQuery(String query, String[] colNames, Object... params)
     {
         ArrayList<ArrayList<Base>> res = new ArrayList<>();
-        
+
         try {
             connect();
-            
+
             PreparedStatement pstmt = con.prepareStatement(query);
-            
-            try (ResultSet result = pstmt.executeQuery()) {
-                while (result.next()) {
-                    ArrayList<Base> rowData = new ArrayList<>();
-                    for (String col : colNames) {
-                        String value = result.getString(col);
-                        rowData.add(new Base(value));
-                    }
-                    res.add(rowData);  
+
+            for (int i = 0; i < params.length; i++) {
+                if (params[i] instanceof String) {
+                    pstmt.setString(i + 1, (String) params[i]);
+                } else if (params[i] instanceof Integer) {
+                    pstmt.setInt(i + 1, (Integer) params[i]);
                 }
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }            
-           
-        } catch (Exception e)
-        {
+            }
+
+            if (query.trim().toUpperCase().startsWith("SELECT")) {
+                try (ResultSet result = pstmt.executeQuery()) {
+                    while (result.next()) {
+                        ArrayList<Base> rowData = new ArrayList<>();
+                        for (String col : colNames) {
+                            String value = result.getString(col);
+                            rowData.add(new Base(value));
+                        }                    
+                        res.add(rowData);
+                    }
+                }
+            } else {
+                pstmt.executeUpdate();
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return res;
     }
 }

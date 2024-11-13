@@ -28,9 +28,10 @@ public class ClientController extends HttpServlet {
     public ArrayList<ArrayList<Base>> getAllClients()
     {
         ArrayList<ArrayList<Base>> clients = new ArrayList<>();
+        String[] columns = {"Name", "Email"};
         
         try {
-            clients = connectionProvider.executeQuery("SELECT * FROM Client", "Name", "Email");
+            clients = connectionProvider.executeQuery("SELECT * FROM Client", columns);
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -40,7 +41,6 @@ public class ClientController extends HttpServlet {
         
         return clients;
     }
-    
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
