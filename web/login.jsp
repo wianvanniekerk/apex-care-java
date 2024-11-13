@@ -4,8 +4,8 @@
     Author     : Wian van Niekerk
 --%>
 
+<%@page import="Controller.LoginController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="Controller.Login"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,7 +15,7 @@
     </head>
     <body class="min-h-screen flex items-center justify-center bg-gray-200">
         <%
-            Login login = new Login();            
+            LoginController login = new LoginController();            
         %>
         <div class="bg-white p-8 rounded-lg shadow-md w-96">
             <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Login</h1>

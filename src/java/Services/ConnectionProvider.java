@@ -46,7 +46,7 @@ public class ConnectionProvider {
         }
     }
     
-    public ArrayList<ArrayList<Base>> executeQuery(String query, Base base, String ...colNames)
+    public ArrayList<ArrayList<Base>> executeQuery(String query, String ...colNames)
     {
         ArrayList<ArrayList<Base>> res = new ArrayList<>();
         

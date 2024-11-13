@@ -5,35 +5,26 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="Controller.Login"%>
+<%@page import="Controller.LoginController"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home</title>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body>
-       <%
-            Login login = new Login();
+        <%
             if (session == null || session.getAttribute("loggedIn") == null)
             {
                 response.sendRedirect("login.jsp");
             }
-
             if (request.getParameter("action") != null && request.getParameter("action").equals("logout")) {
-                login.logout();
+                LoginController.logout(session);
                 response.sendRedirect("login.jsp");
                 return;
             }
         %>
-        <h1>Welcome to ApexCare Solutions - System User Platform</h1>
-        <nav>
-            <ul>
-                <li><a href="/ApexCare">Home</a></li>
-                <li><a href="clients.jsp">Clients</a></li>
-                <li><a href="technicians.jsp">Technicians</a></li>
-            </ul>
-        </nav>
-        <a href="?action=logout">logout</a>
+        <jsp:include page="Components/navbar.jsp" />
     </body>
 </html>
