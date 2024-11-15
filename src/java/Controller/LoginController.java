@@ -78,7 +78,6 @@ public class LoginController extends HttpServlet{
         
         for (int i = 0; i < user.size(); i++) {
             ArrayList<Base> userCredentials = user.get(i);
-            System.out.println(userCredentials.toString());
 
             if (userCredentials.toString().equals(login)) {
                 return true;

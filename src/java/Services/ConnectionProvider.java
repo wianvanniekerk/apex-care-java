@@ -60,6 +60,8 @@ public class ConnectionProvider {
                     pstmt.setString(i + 1, (String) params[i]);
                 } else if (params[i] instanceof Integer) {
                     pstmt.setInt(i + 1, (Integer) params[i]);
+                } else if (params[i] instanceof Boolean) {
+                    pstmt.setBoolean(i + 1, (Boolean) params[i]);
                 }
             }
 
